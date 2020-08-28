@@ -1,18 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Infrastructure.Data;
 using Core.Interfaces;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using AutoMapper;
+using API.Helpers;
 
 namespace API
 {
@@ -25,12 +21,15 @@ namespace API
             
         }
 
-
+//IGenericRepository<Product> productRepo, IGenericRepository<ProductBrand> productBrandRepo, IGenericRepository<ProductType> productTypeRepo
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        //<IGenericRepository<T>, GenericRepository<T>>()
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddAutoMapper(typeof(MappingProfiles));
             services.AddControllers();
             IServiceCollection serviceCollections = services.AddDbContext<StoreContext>(x => 
                           x.UseSqlite( _config.GetConnectionString("DefaultConnection")));
@@ -47,6 +46,7 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 
@@ -55,5 +55,13 @@ namespace API
                 endpoints.MapControllers();
             });
         }
+    }
+
+    internal class GenericRepository
+    {
+    }
+
+    internal interface IGenericRepository
+    {
     }
 }
