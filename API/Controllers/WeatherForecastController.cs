@@ -9,6 +9,7 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -22,6 +23,7 @@ namespace API.Controllers
         {
             _logger = logger;
         }
+        
 
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
