@@ -20,10 +20,7 @@ namespace API
             
         }
 
-//IGenericRepository<Product> productRepo, IGenericRepository<ProductBrand> productBrandRepo, IGenericRepository<ProductType> productTypeRepo
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        //<IGenericRepository<T>, GenericRepository<T>>()
         public void ConfigureServices(IServiceCollection services)
         {
             
@@ -34,12 +31,18 @@ namespace API
 
             services.AddApplicationServices();
             services.AddSwaggerDocumentation();
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("orsPolicy",policy =>
+                policy.AllowAnyHeader().AllowAnyMethod().WithOrigins());
+            });
+
             
 
            
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             
