@@ -33,7 +33,7 @@ namespace API
             services.AddSwaggerDocumentation();
             services.AddCors(opt =>
             {
-                opt.AddPolicy("orsPolicy",policy =>
+                opt.AddPolicy("corsPolicy",policy =>
                 policy.AllowAnyHeader().AllowAnyMethod().WithOrigins());
             });
 
